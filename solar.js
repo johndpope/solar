@@ -3,45 +3,78 @@ var swe = require('swisseph');
 var queue = require("queue-async");
 
 console.log("hi");
-test();
-
-
-
-
+//test();
 
 //object containing all the functions
 var solar = {
 
     PLUTO: "PLUTO",
+    VENUS: swe.SE_VENUS,
+    JPL: swe.SEFLG_JPLEPH,
+    HELIO: swe.SEFLG_HELCTR,
+
 
     //lets start with heliocentric first
     heliocen: {
-        getPluto: function() {
-            return getPlanet(this.PLUTO);
-        },
-        getPlanet: function(p) {
-            //figure out what to do here
+
+        initialized: false,
+        flag: 0,
+        init: function() {
+            console.log("heliocen.init")
+            //get JPL ephemeris and set system to heliocentric
+            this.flag = solar.JPL | solar.HELIO;
+            console.log("this.flag", this.flag);
+            this.initialized = true;
         },
         //returns the position of a planet at a certain time
         getPos: function(planet, date, callback) {
+            console.log("getPos");
             //some swe stuff here
+            //lazy init
+            if (!this.initialized) {
+                this.init();
+            }
+            console.log("getPos this.flag", this.flag);
+            swe.swe_julday(date.year, date.month, date.day, date.hour, swe.SE_GREG_CAL, function(julday_ut) {
+                assert.equal(julday_ut, 2455927.5);
+                console.log('Julian UT day for date:', julday_ut);
 
-        },
-        //returns the positions of all the planets in the solar system at a given time
-        getAllPos: function(date, callback) {
+                console.log("julday_ut", julday_ut);
+                console.log("planet", planet);
+                //jesus was here, this does not work because it is an anonymous function
+                console.log("heliocen.flag", heliocen.flag);
+                //planet position
+                swe.swe_calc_ut(julday_ut, planet, this.flag, function(body) {
+                    assert(!body.error, body.error);
+                    console.log('position:', body);
+                    callback(body.error, body);
+                });
 
+            });
         }
-    },
-
-    //do this once heliocetric is done
-    geocen: {},
-    getHelioCen: function() {
-        return this.heliocen;
-    },
-    getGeoCen: function() {
-        return this.geocen;
     }
 
+};
+
+test2();
+
+
+function test2() {
+
+    var sys = solar.heliocen;
+    var date = {
+        year: 2012,
+        month: 1,
+        day: 1,
+        hour: 0
+    };
+    sys.getPos(solar.VENUS, date, function(error, body) {
+        if (error) {
+            console.log("error: " + error);
+            return;
+        }
+        console.log("body", body);
+    })
 }
 //TODO get utc time from local time
 // var query = {};
