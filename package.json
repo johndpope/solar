@@ -1,0 +1,28 @@
+{
+    "name": "solar",
+    "version": "0.0.0",
+    "description": "heliocentric and geocentric positions of planets at a given time ",
+    "main": "solar.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chrischne/solar.git"
+    },
+    "keywords": [
+        "planets",
+        "solar",
+        "solarsystem",
+        "ephemeris"
+    ],
+    "author": "Christian Schneider",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/chrischne/solar/issues"
+    },
+    "homepage": "https://github.com/chrischne/solar",
+    "dependencies": {
+        "swisseph": "~0.4.2"
+    }
+}
