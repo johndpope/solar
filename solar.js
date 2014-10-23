@@ -3,6 +3,7 @@ var swe = require('swisseph');
 var queue = require("queue-async");
 
 //added this comment as test
+//add this other comment from othersolar
 console.log("hi");
 //test();
 
