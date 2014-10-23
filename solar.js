@@ -2,6 +2,7 @@ var assert = require('assert');
 var swe = require('swisseph');
 var queue = require("queue-async");
 
+//added this comment as test
 console.log("hi");
 //test();
 
